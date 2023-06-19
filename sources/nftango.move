@@ -42,7 +42,7 @@ module overmind::nftango {
     public fun assert_nftango_store_exists(
         account_address: address,
     ) {
-        // TODO: assert that `NFTangoStore` exists
+        assert!(exists<NFTangoStore>(account_address), ERROR_NFTANGO_STORE_DOES_NOT_EXIST)
     }
 
     public fun assert_nftango_store_does_not_exist(
@@ -55,12 +55,17 @@ module overmind::nftango {
         account_address: address,
     ) acquires NFTangoStore {
         // TODO: assert that `NFTangoStore.active` is active
+        let store = borrow_global<NFTangoStore>(account_address);
+        assert!(store.active, ERROR_NFTANGO_STORE_IS_NOT_ACTIVE);
     }
 
-    public fun assert_nftango_store_is_not_active(
+     public fun assert_nftango_store_is_not_active(
         account_address: address,
     ) acquires NFTangoStore {
         // TODO: assert that `NFTangoStore.active` is not active
+        let store = borrow_global<NFTangoStore>(account_address);
+        assert!(!store.active, ERROR_NFTANGO_STORE_IS_ACTIVE);
+
     }
 
     public fun assert_nftango_store_has_an_opponent(
